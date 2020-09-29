@@ -2,10 +2,9 @@ from django.conf.urls import re_path
 from django.contrib import admin
 from django.template.context_processors import csrf
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.conf import settings
 import subprocess
-
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -46,7 +45,7 @@ def console(request):
             'STATIC_URL': settings.STATIC_URL
         }
         context.update(csrf(request))
-        return render_to_response("django-console/admin/index.html", context)
+        return render("django-console/admin/index.html", context)
     else:
         return HttpResponse("Unauthorized.", status=403)
 
