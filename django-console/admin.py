@@ -1,10 +1,11 @@
-from django.urls import path
 from django.contrib import admin
+from django.shortcuts import render
 from django.template.context_processors import csrf
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.conf import settings
 import subprocess
+
+from django.urls import path
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -74,9 +75,10 @@ def get_admin_urls(urls):
     Appends the console and post urls to the url patterns
     """
     def get_urls():
-        my_urls = path('',
-                       (r'^console/$', admin.site.admin_view(console)),
-                       (r'^console/post/$', admin.site.admin_view(console_post)))
+        my_urls = [
+            path('console/', admin.site.admin_view(console)),
+            path('console/post/', admin.site.admin_view(console_post))
+        ]
         return my_urls + urls
 
     return get_urls
